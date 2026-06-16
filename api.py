@@ -1,8 +1,9 @@
 import boto3
 import json
 import os
+from config import AWS_REGION
 
-client = boto3.client("secretsmanager", region_name="eu-north-1")
+client = boto3.client("secretsmanager", region_name= AWS_REGION)
 secret = client.get_secret_value(SecretId="RAG-API-secret")
 secrets = json.loads(secret["SecretString"])
 
