@@ -5,7 +5,7 @@ from langchain_core.vectorstores import InMemoryVectorStore
 from config import AWS_REGION
 
 VECTORSTORE_PATH = "/tmp/vectorstore.json"
-S3_URL = f"https://xyz-corporation.s3.{AWS_REGION}.amazonaws.com/vectorstore.json"
+S3_URL = "https://xyz-corporation-893721683278-eu-north-1-an.s3.eu-north-1.amazonaws.com/vectorstore.json"
 
 embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
 
