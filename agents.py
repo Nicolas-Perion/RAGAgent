@@ -5,7 +5,7 @@ from typing import Literal
 
 # Base model for all the agents
 base_model = init_chat_model(
-    model="gemini-2.5-flash",
+    model="gemini-2.5-flash-lite",
     model_provider="google_genai"
 )
 
