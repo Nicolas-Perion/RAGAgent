@@ -1,24 +1,15 @@
-from dotenv import load_dotenv
-from langchain_community.document_loaders import Docx2txtLoader
+import boto3
+import os
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_core.vectorstores import InMemoryVectorStore
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from config import DOCUMENT_PATH, CHUNK_SIZE, CHUNK_OVERLAP
 
-load_dotenv()
-
-loader = Docx2txtLoader(DOCUMENT_PATH)
-
-docs = loader.load()
+VECTORSTORE_PATH = "/tmp/vectorstore.json"
+S3_BUCKET = os.getenv("S3_BUCKET")
 
 embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
-vectorstore = InMemoryVectorStore(embeddings)
 
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP, add_start_index=True
-)
+if not os.path.exists(VECTORSTORE_PATH):
+    s3 = boto3.client("s3")
+    s3.download_file(S3_BUCKET, "vectorstore.json", VECTORSTORE_PATH)
 
-splits = text_splitter.split_documents(docs)
-_ = vectorstore.add_documents(documents=splits)
-
-vectorstore.dump("vectorstore.json")
+vectorstore = InMemoryVectorStore.load(VECTORSTORE_PATH, embeddings)

@@ -3,10 +3,7 @@ from langgraph.graph import END, START, StateGraph
 from nodes import RAG_or_memory, rewrite_question, generate_answer_with_context, grade_documents
 from langgraph.prebuilt import ToolNode
 from tools import retrieve_context
-from agents import model_DG
 from typing import Literal
-from PIL import Image as PILImage
-import io
 
 def route(state: RAGState) -> Literal["retriever", "end"]:
     """
@@ -49,8 +46,3 @@ pipeline.add_edge("rewrite_question", "RAG_or_memory")
 pipeline.add_edge("generate_answer_with_context", END)
 
 graph = pipeline.compile()
-
-# Uncomment if you want to see the graph schema.
-# png_data = graph.get_graph().draw_mermaid_png()
-# image = PILImage.open(io.BytesIO(png_data))
-# image.show()

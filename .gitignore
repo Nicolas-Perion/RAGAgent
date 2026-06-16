@@ -4,3 +4,6 @@
 # Execution
 .vscode
 __pycache__
+
+# Data
+docs/

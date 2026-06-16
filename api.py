@@ -1,3 +1,14 @@
+import boto3
+import json
+import os
+
+client = boto3.client("secretsmanager", region_name="eu-north-1")
+secret = client.get_secret_value(SecretId="RAG-API-secret")
+secrets = json.loads(secret["SecretString"])
+
+os.environ["GOOGLE_API_KEY"] = secrets["GOOGLE_API_KEY"]
+os.environ["S3_BUCKET"] = secrets["S3_BUCKET"]
+
 from fastapi import FastAPI
 from graph import graph
 
