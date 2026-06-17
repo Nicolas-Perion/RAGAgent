@@ -13,6 +13,9 @@ os.environ["LANGCHAIN_PROJECT"] = secrets["LANGCHAIN_PROJECT"]
 os.environ["GOOGLE_API_KEY"] = secrets["GOOGLE_API_KEY"]
 os.environ["S3_BUCKET"] = secrets["S3_BUCKET"]
 
+from langsmith import Client
+Client()
+
 from fastapi import FastAPI
 from graph import graph
 
