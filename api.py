@@ -7,6 +7,9 @@ client = boto3.client("secretsmanager", region_name= AWS_REGION)
 secret = client.get_secret_value(SecretId="RAG-API-secret")
 secrets = json.loads(secret["SecretString"])
 
+os.environ["LANGCHAIN_TRACING_V2"] = "true"
+os.environ["LANGCHAIN_API_KEY"] = secrets["LANGCHAIN_API_KEY"]
+os.environ["LANGCHAIN_PROJECT"] = secrets["LANGCHAIN_PROJECT"]
 os.environ["GOOGLE_API_KEY"] = secrets["GOOGLE_API_KEY"]
 os.environ["S3_BUCKET"] = secrets["S3_BUCKET"]
 
