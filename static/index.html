@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAF7F0;
+    --ink: #211D17;
+    --ink-soft: #6B6356;
+    --accent: #2B4C7E;
+    --accent-soft: #E8EEF6;
+    --line: #E3DDCD;
+    --surface: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 20px;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 620px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 34px;
+    line-height: 1.15;
+    margin: 0 0 8px 0;
+  }
+
+  p.sub {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin: 0 0 36px 0;
+    line-height: 1.5;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 84px;
+    resize: vertical;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+    padding: 16px 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  textarea:focus {
+    border-color: var(--accent);
+  }
+
+  textarea::placeholder { color: #B5AC9A; }
+
+  button {
+    align-self: flex-end;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    padding: 11px 22px;
+    cursor: pointer;
+    transition: opacity 0.15s ease, transform 0.1s ease;
+  }
+
+  button:hover { opacity: 0.9; }
+  button:active { transform: translateY(1px); }
+  button:disabled { opacity: 0.5; cursor: progress; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .answer-box {
+    margin-top: 32px;
+    border-top: 1px solid var(--line);
+    padding-top: 28px;
+    display: none;
+  }
+
+  .answer-box.visible { display: block; }
+
+  .answer-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+  }
+
+  .answer-text {
+    font-family: 'Source Serif 4', serif;
+    font-size: 18px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+  }
+
+  .error-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #A13A2F;
+    background: #FBEEEC;
+    border: 1px solid #EFD3CE;
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+
+  .dots span {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 4px;
+    animation: pulse 1.1s infinite ease-in-out;
+  }
+  .dots span:nth-child(2) { animation-delay: 0.15s; }
+  .dots span:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes pulse {
+    0%, 80%, 100% { opacity: 0.25; transform: scale(0.85); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dots span { animation: none; opacity: 0.8; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+    <div class="eyebrow">Document Assistant</div>
+    <h1>Ask your question.</h1>
+    <p class="sub">Type a question in plain language - no need to format anything, we'll take care of the rest.</p>
+
+    <form id="ask-form">
+      <textarea
+        id="question"
+        placeholder="E.g. Who founded XYZ Corporation?"
+        required
+      ></textarea>
+      <button type="submit" id="submit-btn">Ask</button>
+    </form>
+
+    <div class="answer-box" id="answer-box">
+      <div class="answer-label" id="answer-label">Answer</div>
+      <div id="answer-content"></div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = "http://13.63.207.94:8000";
+
+    const form = document.getElementById("ask-form");
+    const textarea = document.getElementById("question");
+    const btn = document.getElementById("submit-btn");
+    const box = document.getElementById("answer-box");
+    const label = document.getElementById("answer-label");
+    const content = document.getElementById("answer-content");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const question = textarea.value.trim();
+      if (!question) return;
+
+      btn.disabled = true;
+      btn.textContent = "Searching…";
+      box.classList.add("visible");
+      label.textContent = "Answer";
+      content.innerHTML = '<div class="dots"><span></span><span></span><span></span></div>';
+
+      try {
+        // encodeURIComponent automatically handles spaces, quotes, accents, etc.
+        const url = `${API_BASE}/query?question=${encodeURIComponent(question)}`;
+        const res = await fetch(url);
+
+        if (!res.ok) {
+          throw new Error(`Server responded with status ${res.status}`);
+        }
+
+        const data = await res.json();
+        content.innerHTML = `<div class="answer-text"></div>`;
+        content.querySelector(".answer-text").textContent = data.answer ?? "No answer received.";
+      } catch (err) {
+        label.textContent = "Error";
+        content.innerHTML = `<div class="error-text">Couldn't reach the assistant: ${err.message}</div>`;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Ask";
+      }
+    });
+  </script>
+
+</body>
+</html>

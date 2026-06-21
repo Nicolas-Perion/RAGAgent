@@ -2,6 +2,7 @@ import boto3
 import json
 import os
 from config import AWS_REGION
+from fastapi.staticfiles import StaticFiles
 
 client = boto3.client("secretsmanager", region_name= AWS_REGION)
 secret = client.get_secret_value(SecretId="RAG-API-secret")
@@ -45,3 +46,5 @@ def health() -> dict:
         dict: The status.
     """
     return {"status": "ok"}
+
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
