@@ -1,6 +1,6 @@
 # RAG Agent
 
-**A conversational RAG agent that decides for itself when to retrieve, when to trust its own knowledge, and when to try again** - built with LangGraph and deployed on AWS EC2. Rather than blindly retrieving on every query, the agent uses tool calling to dynamically choose between answering from memory or pulling context from a document knowledge base, with Gemini models powering both reasoning and retrieval.
+**A conversational RAG agent that decides for itself when to retrieve, when to trust its own knowledge, and when to try again** - built with LangGraph and deployed on AWS EC2. Rather than blindly retrieving on every query, the agent uses tool calling to dynamically choose between answering from memory or pulling context from a document knowledge base (about the fictitious company XYZ Corporation), with Gemini models powering both reasoning and retrieval.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
