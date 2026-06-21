@@ -55,13 +55,13 @@ The agent is structured as a LangGraph state graph with the following flow:
 
 ## Tech Stack
 
-- [LangGraph](https://github.com/langchain-ai/langgraph) — agent graph orchestration
-- [LangChain](https://github.com/langchain-ai/langchain) — LLM tooling and document loaders
-- [Google Gemini](https://ai.google.dev/) — LLM (`gemini-2.5-flash-lite`) and embeddings (`gemini-embedding-001`)
-- [FastAPI](https://fastapi.tiangolo.com/) + [Uvicorn](https://www.uvicorn.org/) — REST API
-- [Pydantic](https://docs.pydantic.dev/) — structured outputs and data validation
-- [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) — AWS SDK (S3, Secrets Manager)
-- Vanilla HTML/CSS/JS — lightweight frontend served directly by FastAPI's `StaticFiles`
+- [LangGraph](https://github.com/langchain-ai/langgraph) - agent graph orchestration
+- [LangChain](https://github.com/langchain-ai/langchain) - LLM tooling and document loaders
+- [Google Gemini](https://ai.google.dev/) - LLM (`gemini-2.5-flash-lite`) and embeddings (`gemini-embedding-001`)
+- [FastAPI](https://fastapi.tiangolo.com/) + [Uvicorn](https://www.uvicorn.org/) - REST API
+- [Pydantic](https://docs.pydantic.dev/) - structured outputs and data validation
+- [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) - AWS SDK (S3, Secrets Manager)
+- Vanilla HTML/CSS/JS - lightweight frontend served directly by FastAPI's `StaticFiles`
 
 ---
 
@@ -146,13 +146,13 @@ Liveness check, used to confirm the service is running.
 ## Known Limitations
 
 
-- **No authentication** — the API is publicly accessible to anyone with the IP. An API key or authentication layer should be added for production.
-- **In-memory vectorstore** — `InMemoryVectorStore` loads the entire vectorstore into RAM on startup. For large document collections, a persistent vector database (e.g. Pinecone, pgvector) would be more appropriate.
-- **Single document knowledge base** — the current setup is designed for a single `.docx` file. Multi-document support would require updates to the ingestion pipeline.
+- **No authentication** - the API is publicly accessible to anyone with the IP. An API key or authentication layer should be added for production.
+- **In-memory vectorstore** - `InMemoryVectorStore` loads the entire vectorstore into RAM on startup. For large document collections, a persistent vector database (e.g. Pinecone, pgvector) would be more appropriate.
+- **Single document knowledge base** - the current setup is designed for a single `.docx` file. Multi-document support would require updates to the ingestion pipeline.
 
 ---
 
 ## About
 
 <!-- TODO: fill in -->
-Built by **[Your name]** — [LinkedIn](#) · [Portfolio](#) · [Email](#)
+Built by **Nicolas Perion** - [LinkedIn](https://www.linkedin.com/in/nicolas-perion/) · [Email](mailto:nicolas.perionquemeneur@essec.edu)
