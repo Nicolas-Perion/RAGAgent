@@ -154,5 +154,4 @@ Liveness check, used to confirm the service is running.
 
 ## About
 
-<!-- TODO: fill in -->
 Built by **Nicolas Perion** - [LinkedIn](https://www.linkedin.com/in/nicolas-perion/) · [Email](mailto:nicolas.perionquemeneur@essec.edu)
